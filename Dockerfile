@@ -7,14 +7,7 @@ RUN useradd -ms /bin/bash designer \
     && usermod -aG sudo designer
 
 # Clone LibreLane repository
-USER root
-RUN git clone https://github.com/librelane/librelane.git /opt/librelane && \
-    chown -R designer:designer /opt/librelane
-
-# Install LibreLane from dev branch using Nix
-RUN cd /opt/librelane && \
-    git checkout dev && \
-    nix profile install . --extra-experimental-features "nix-command flakes"
+RUN git clone https://github.com/librelane/librelane.git /opt/librelane
 
 RUN pip install "cocotb~=2.0"  --break-system-packages
 

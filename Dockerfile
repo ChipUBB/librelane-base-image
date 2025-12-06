@@ -4,7 +4,8 @@ ADD install-nix.sh /tmp/install-nix.sh
 RUN /tmp/install-nix.sh
 RUN pip install "cocotb~=2.0"  --break-system-packages
 
-RUN useradd -ms /bin/bash designer
+RUN useradd -ms /bin/bash designer \
+    && usermod -aG sudo designer
 USER designer
 
 ENTRYPOINT ["/bin/bash", "-l"]

@@ -35,7 +35,7 @@ ENV PATH="/home/designer/.nix-profile/bin:/home/designer/.nix-profile/sbin:${PAT
 
 # Clone LibreLane repository
 RUN git clone https://github.com/librelane/librelane.git /opt/librelane && \
-    cd /opt/librelane && git submodule update --init --recursive && \
+    cd /opt/librelane && git checkout leo/padring && git submodule update --init --recursive && \
     nix profile add .
 
 ENTRYPOINT ["/bin/bash", "-l"]

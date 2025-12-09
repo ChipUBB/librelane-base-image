@@ -32,7 +32,8 @@ ENV PATH="/home/designer/.nix-profile/bin:/home/designer/.nix-profile/sbin:${PAT
 RUN git clone https://github.com/librelane/librelane.git /opt/librelane && \
     cd /opt/librelane && git checkout leo/padring && git submodule update --init --recursive && \
     nix profile add . \
-    && nix profile add .#openroad
+    && nix profile add .#openroad \
+    && nix profile add .#yosys  
 
 #verilator
 USER root
@@ -57,7 +58,7 @@ ENV PATH=$PATH:/home/designer/riscv/bin/
 
 #Surfer
 RUN wget https://gitlab.com/api/v4/projects/42073614/packages/generic/surfer/v0.3.0/surfer_linux_v0.3.0.zip \
-    && unzip surfer_linux_v0.3.0.zip -d /usr/local/bin/ \
+    && sudo unzip surfer_linux_v0.3.0.zip -d /usr/local/bin/ \
     && rm surfer_linux_v0.3.0.zip
 
 

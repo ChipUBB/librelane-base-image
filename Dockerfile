@@ -33,21 +33,11 @@ RUN git clone https://github.com/librelane/librelane.git /opt/librelane && \
     cd /opt/librelane && git checkout leo/padring && git submodule update --init --recursive && \
     nix profile add . \
     && nix profile add .#openroad \
-    && nix profile add .#yosys  
-
-#verilator
-USER root
-RUN git clone https://github.com/verilator/verilator.git \
-    && cd verilator && git checkout v5.042 \
-    && autoconf && ./configure \
-    && make -j$(nproc) && make install 
-
-ENV VERILATOR=/usr/local/bin/verilator
-
-USER designer
-#Bender
-RUN curl --proto '=https' --tlsv1.2 https://pulp-platform.github.io/bender/init -sSf | sh \
-    && sudo mv /home/designer/bender /usr/local/bin/ 
+    && nix profile add .#yosys \
+    && nix profile add .#klayout \
+    && nix profile add .#gtkwave \
+    && nix profile add .#verilator \
+    && nix profile add .#bender
 
 #RISC-V Toolchain
 RUN wget https://github.com/riscv-collab/riscv-gnu-toolchain/releases/download/2025.11.27/riscv64-elf-ubuntu-22.04-gcc.tar.xz \
@@ -55,11 +45,5 @@ RUN wget https://github.com/riscv-collab/riscv-gnu-toolchain/releases/download/2
     && rm riscv64-elf-ubuntu-22.04-gcc.tar.xz 
 
 ENV PATH=$PATH:/home/designer/riscv/bin/
-
-#Surfer
-RUN wget https://gitlab.com/api/v4/projects/42073614/packages/generic/surfer/v0.3.0/surfer_linux_v0.3.0.zip \
-    && sudo unzip surfer_linux_v0.3.0.zip -d /usr/local/bin/ \
-    && rm surfer_linux_v0.3.0.zip
-
-
+ 
 ENTRYPOINT ["/bin/bash", "-l"]

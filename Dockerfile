@@ -39,11 +39,4 @@ RUN git clone https://github.com/librelane/librelane.git /opt/librelane && \
     && nix profile add .#verilator \
     && nix profile add .#bender
 
-#RISC-V Toolchain
-RUN wget https://github.com/riscv-collab/riscv-gnu-toolchain/releases/download/2025.11.27/riscv64-elf-ubuntu-22.04-gcc.tar.xz \
-    && tar -xf riscv64-elf-ubuntu-22.04-gcc.tar.xz \
-    && rm riscv64-elf-ubuntu-22.04-gcc.tar.xz 
-
-ENV PATH=$PATH:/home/designer/riscv/bin/
- 
 ENTRYPOINT ["/bin/bash", "-l"]

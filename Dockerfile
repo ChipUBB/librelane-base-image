@@ -1,5 +1,5 @@
 FROM ubuntu:22.04
-RUN apt-get update && apt-get install -y python3 python3-pip curl systemd git sudo wget flex bison autoconf help2man unzip
+RUN apt-get update && apt-get install -y python3 python3-pip curl systemd git sudo wget flex bison autoconf help2man unzip default-jdk
 
 ARG USERNAME=designer
 ARG USER_UID=1000

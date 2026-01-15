@@ -1,5 +1,5 @@
 FROM ubuntu:22.04
-RUN apt-get update && apt-get install -y python3 python3-pip curl systemd git sudo wget flex bison autoconf help2man unzip
+RUN apt-get update && apt-get install -y python3 python3-pip curl systemd git sudo wget flex bison autoconf help2man unzip default-jdk
 
 ARG USERNAME=designer
 ARG USER_UID=1000
@@ -11,6 +11,12 @@ RUN groupadd --gid $USER_GID $USERNAME \
 
 USER root
 RUN chown -R designer:designer /opt
+
+# Digital
+RUN curl -L https://github.com/hneemann/Digital/releases/latest/download/Digital.zip -o /opt/Digital.zip && \
+    unzip /opt/Digital.zip -d /opt/ && \
+    ln -s /opt/Digital/Digital.sh /usr/local/bin/Digital && \
+    rm /opt/Digital.zip
 
 USER designer
 WORKDIR /home/designer
@@ -39,11 +45,5 @@ RUN git clone https://github.com/librelane/librelane.git /opt/librelane && \
     && nix profile add .#verilator \
     && nix profile add .#bender
 
-#RISC-V Toolchain
-RUN wget https://github.com/riscv-collab/riscv-gnu-toolchain/releases/download/2025.11.27/riscv64-elf-ubuntu-22.04-gcc.tar.xz \
-    && tar -xf riscv64-elf-ubuntu-22.04-gcc.tar.xz \
-    && rm riscv64-elf-ubuntu-22.04-gcc.tar.xz 
 
-ENV PATH=$PATH:/home/designer/riscv/bin/
- 
 ENTRYPOINT ["/bin/bash", "-l"]

@@ -12,6 +12,12 @@ RUN groupadd --gid $USER_GID $USERNAME \
 USER root
 RUN chown -R designer:designer /opt
 
+# Digital
+RUN curl -L https://github.com/hneemann/Digital/releases/latest/download/Digital.zip -o /opt/Digital.zip && \
+    unzip /opt/Digital.zip -d /opt/ && \
+    ln -s /opt/Digital/Digital.sh /usr/local/bin/Digital && \
+    rm /opt/Digital.zip
+
 USER designer
 WORKDIR /home/designer
 ENV USER=designer
@@ -38,5 +44,6 @@ RUN git clone https://github.com/librelane/librelane.git /opt/librelane && \
     && nix profile add .#gtkwave \
     && nix profile add .#verilator \
     && nix profile add .#bender
+
 
 ENTRYPOINT ["/bin/bash", "-l"]
